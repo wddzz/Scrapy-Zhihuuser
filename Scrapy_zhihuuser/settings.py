@@ -68,6 +68,7 @@ DEFAULT_REQUEST_HEADERS = {
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'Scrapy_zhihuuser.pipelines.MongoPipeline': 300,
+   # 'scrapy_redis.pipelines.RedisPipeline': 301,#爬取结果存redis
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -90,5 +91,23 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# MongoDB数据库配置
 MONGO_URI = "localhost"
 MONGO_DATABASE = "zhihu"
+
+# scrapy_redis相关配置
+# 调度器改为scrapy_redis
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+# 去重配置scrapy_redis
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# redis数据库的连接信息
+REDIS_URL = 'redis://root:root@192.168.158.129:6379'
+# redis数据库没有密码的话可以用以下方式连接
+# REDIS_HOST = '192.168.158.129'
+# REDIS_PORT = 6379
+
+# 爬虫结束后不清空Requests和指纹
+# SCHEDULER_PERSIST = True
+# 每次爬取的时候都把Requests和指纹清空，相当于重新爬取
+# SCHEDULER_FLUSH_ON_START = True
